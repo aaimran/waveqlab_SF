@@ -1,0 +1,46 @@
+# fno_sw_baseline.yaml — PINO-FNO baseline configuration (POC: pure supervised)
+
+# ── Model ──────────────────────────────────────────────────────────────────
+model:
+  n_params : 4       # Tau_0, alp_s, alp_d, D_c
+  modes_x  : 16      # Fourier modes kept in space
+  modes_t  : 16      # Fourier modes kept in time
+  width    : 64      # hidden channel width (d_v)
+  n_layers : 4       # number of FNO blocks
+  c_out    : 4       # output fields: v_l, s_l, v_r, s_r
+
+# ── Data ───────────────────────────────────────────────────────────────────
+data:
+  train_dir : data/train
+  val_dir   : data/val
+  test_dir  : data/test
+  nx_out    : 64         # must match generate_dataset.py NX_OUT
+  nt_out    : 64         # must match generate_dataset.py NT_OUT
+
+# ── Physical constants (used in PDE loss) ─────────────────────────────────
+physics:
+  rho      : 2670.0      # density (kg/m³)
+  cs       : 3464.0      # shear wave velocity (m/s)   → mu = rho * cs^2
+  sigma_n  : 120.0       # normal stress (MPa)
+  L        : 15000.0     # domain half-length (m) → dx = L / (nx-1)
+  tend     : 3.0         # simulation end time (s) → dt = tend / (nt-1)
+
+# ── Training ───────────────────────────────────────────────────────────────
+training:
+  batch_size     : 16
+  epochs         : 200
+  lr             : 1.0e-3
+  weight_decay   : 1.0e-4
+  lr_scheduler   : cosine    # cosine | step | none
+  warmup_epochs  : 10
+  # Loss weights
+  lambda_data    : 1.0
+  lambda_pde     : 0.0       # set > 0 to enable physics residual
+  lambda_bc      : 0.0       # set > 0 to enable fault BC residual
+  # Checkpointing
+  checkpoint_dir : checkpoints
+  save_every     : 20        # save checkpoint every N epochs
+  # Logging
+  log_every      : 10        # print train/val loss every N epochs
+  # Reproducibility
+  seed           : 42

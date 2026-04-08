@@ -1,0 +1,100 @@
+\documentclass[12pt]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+
+% ── Document ──────────────────────────────────────────────────────────────────
+\begin{document}
+
+\begin{center}
+  {\large \textbf{A Physics-Informed Fourier Neural Operator for\\[4pt]
+  Rapid Emulation of 1D Dynamic Earthquake Rupture}}\\[10pt]
+
+  Aimran\,$^1$\\[4pt]
+  {\small $^1$Department of Mathematical Sciences,
+           New Mexico State University, Las Cruces, NM}\\[4pt]
+  {\small \textit{NMSU--UTEP Joint Mathematics Workshop, April 2026}}
+\end{center}
+
+\vspace{6pt}
+\hrule
+\vspace{10pt}
+
+\noindent
+\textbf{Abstract.}\;
+Numerical simulation of earthquake rupture dynamics is computationally
+expensive, requiring the repeated solution of coupled elastic wave and
+friction equations over large parameter spaces.
+This makes tasks such as uncertainty quantification, parameter inversion,
+and real-time hazard assessment prohibitively costly with classical solvers.
+We present a proof-of-concept \emph{Physics-Informed Neural Operator}
+(PINO) framework that learns to emulate a 1D dynamic rupture simulator
+orders of magnitude faster than the underlying physics solver.
+
+The forward simulator discretizes two elastic half-spaces separated by a
+fault interface governed by \emph{Slip-Weakening} (SW) friction.
+The governing velocity-stress system,
+\begin{equation}
+  \frac{\partial v}{\partial t} = \frac{1}{\rho}\frac{\partial s}{\partial x},
+  \qquad
+  \frac{\partial s}{\partial t} = \mu\,\frac{\partial v}{\partial x},
+\end{equation}
+is solved with fourth-order Summation-by-Parts (SBP) finite differences and
+Runge-Kutta time integration.
+The fault traction obeys the slip-weakening law
+$\tau = \sigma_n\bigl[\alpha_s - (\alpha_s-\alpha_d)\min(D/D_c,1)\bigr]$,
+enforced weakly via Simultaneous-Approximation-Term (SAT) penalties.
+A Numba-JIT implementation achieves a \textbf{1\,868$\times$} speedup over
+pure-Python serial execution (0.086\,s per simulation on a single CPU thread).
+
+The neural operator maps a four-dimensional physical parameter vector
+$\mathbf{p} = (\tau_0,\,\alpha_s,\,\alpha_d,\,D_c)$ — background stress,
+static and dynamic friction coefficients, and critical slip distance — to the
+full space-time solution
+$\mathcal{G}_\theta(\mathbf{p}) = \bigl(v_l(x,t),\,s_l(x,t),\,v_r(x,t),\,s_r(x,t)\bigr)$
+on a $64\times 64$ spatial-temporal grid.
+The architecture is a \textbf{2D Fourier Neural Operator} (FNO-2D):
+parameter channels are broadcast over the grid and lifted into a
+$d_v\!=\!64$ latent space; four spectral-convolution blocks filter the
+leading 16 Fourier modes in each dimension; and a two-layer projection
+head maps to the four output fields.
+The model has 8.4\,million trainable parameters.
+
+A training dataset of 300 simulations (200 train / 50 validation / 50 test)
+is generated via Latin Hypercube Sampling (LHS) of the parameter space with
+physical validity constraints (nucleation condition $\tau_0 > \alpha_s\sigma_n$,
+velocity-weakening condition $\alpha_d < \alpha_s$).
+The model is trained with an \emph{AdamW} optimizer and cosine learning-rate
+schedule using a relative $L^2$ data loss,
+\begin{equation}
+  \mathcal{L}_{\text{data}}
+  = \frac{1}{N}\sum_{i=1}^{N}
+    \frac{\|\mathcal{G}_\theta(\mathbf{p}_i) - u_i\|_2}{\|u_i\|_2}.
+\end{equation}
+Preliminary results show rapid convergence: the validation loss drops from
+$\sim\!1.0$ at initialization to $\mathbf{0.023}$ by epoch~50
+($\sim$2.3\% relative field error), with training continuing toward
+200 epochs.
+The PINO framework further supports a \emph{physics residual} loss
+evaluated exactly in Fourier space — exploiting the identity
+$\partial_x u \leftrightarrow ik_x\hat{u}$ — enabling PDE-constrained
+training without finite-difference approximation of derivatives.
+
+This work demonstrates that Fourier Neural Operators can accurately capture
+the nonlinear wave-friction dynamics of dynamic rupture from a small
+supervised dataset, offering a pathway toward GPU-accelerated surrogate
+models for earthquake source inversion and stochastic ground-motion
+simulation.
+
+\vspace{10pt}
+\noindent
+\textbf{Keywords:} Fourier Neural Operator, Physics-Informed Neural Operator,
+dynamic rupture, earthquake simulation, Slip-Weakening friction,
+surrogate modeling, SBP-SAT.
+
+\end{document}

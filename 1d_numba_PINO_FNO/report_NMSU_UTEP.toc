@@ -1,0 +1,39 @@
+\contentsline {section}{\numberline {1}The Big Picture: Why Should We Care?}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Earthquakes and the Challenge of Prediction}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}The Curse of Repetition}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Background: The Physics of Earthquake Rupture}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Elastic Waves in the Earth}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The Governing Equations}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}The Geometry: Two Domains and a Fault}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Fault Friction: The Slip-Weakening Law}{6}{subsection.2.4}%
+\contentsline {section}{\numberline {3}The Forward Simulator}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}What Does the Simulator Do?}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Summation-by-Parts (SBP) Spatial Discretization}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Simultaneous-Approximation-Terms (SAT) Boundary Conditions}{9}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Time Integration: Runge-Kutta 4}{9}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Numba JIT Acceleration}{9}{subsection.3.5}%
+\contentsline {section}{\numberline {4}The Dataset}{10}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Latin Hypercube Sampling (LHS)}{10}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Dataset Composition}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Normalisation}{11}{subsection.4.3}%
+\contentsline {section}{\numberline {5}The Fourier Neural Operator}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}What Is an Operator?}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Why Fourier Space?}{12}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}The Spectral Convolution Layer}{13}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Full FNO-2D Architecture}{13}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Training the FNO}{14}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Loss Function}{14}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Optimisation}{14}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Learning Rate Schedule}{15}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Hardware}{15}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Results}{15}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Training Convergence}{15}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}What 1.5\% Error Means in Practice}{16}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Speedup Summary}{17}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Physics-Informed Extension (PINO)}{17}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Motivation: Why Add Physics?}{17}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}PDE Residuals in Fourier Space}{18}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Fault Boundary Loss}{18}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Current Status and Next Steps}{19}{subsection.8.4}%
+\contentsline {section}{\numberline {9}Future Directions}{19}{section.9}%
+\contentsline {section}{\numberline {10}Conclusions}{19}{section.10}%

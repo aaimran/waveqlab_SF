@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Motivation}{3}{0}{1}
+\beamer@sectionintoc {3}{FNO Architecture}{6}{0}{3}
+\beamer@sectionintoc {4}{Dataset \& Training}{9}{0}{4}
+\beamer@sectionintoc {5}{Results}{11}{0}{5}
+\beamer@sectionintoc {6}{PINO Extension}{13}{0}{6}
+\beamer@sectionintoc {7}{Conclusions \& Future Work}{14}{0}{7}
