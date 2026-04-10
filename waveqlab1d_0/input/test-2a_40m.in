@@ -1,0 +1,30 @@
+# Withers et al. (2015) Figure 4 — Constant Q (gamma=0.0)
+# VS=3464 m/s, rho=2700 kg/m3, Qs=Qp=50
+# Q_S = c * V_S  ->  c = 50 / 3.464 = 14.433 s/km
+# weight_exp=0.0: constant Q (frequency-independent, N=4 Zener mechanisms)
+# NOTE: paper uses N=8; waveqlab1d uses N=4 (same formulation, fewer mechanisms)
+# r0_l=1: free surface
+response   = anelastic
+cfl        = 0.5
+L          = 30.0
+nx         = 751
+cs         = 3.464
+rho        = 2.700
+tend       = 8.0
+fric_law   = SW
+Tau_0     = 81.60
+sigma_n   = 120.0
+alp_s     = 0.677
+alp_d     = 0.525
+D_c       = 0.4
+slip_init = 0.0
+order      = 6
+w_stride   = 1
+output_prefix = test-2a_40m
+
+r0_l = 1
+r1_r = 1
+
+c          = 14.433
+weight_exp = 0.0
+fref       = 1.0

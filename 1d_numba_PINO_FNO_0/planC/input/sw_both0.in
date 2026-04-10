@@ -1,0 +1,41 @@
+# =============================================================================
+# Plan-C Input: SW friction, ABSORBING outer boundaries (r0_l=0, r1_r=0)
+#   Left domain:   x in [0, L=30 km]   left-BC absorbing (r0_l=0)
+#   Right domain:  x in [L, 2L]        right-BC absorbing (r1_r=0)
+#   Fault-side BCs (r1_l, r0_r) always 1 (free-surface coupling)
+# Resolution here: nx=376 → dx~80 m.  Override nx per resolution sweep.
+# =============================================================================
+
+output_prefix = rupture_SW_bc0
+
+# --- Domain ---
+L      = 30.0          # km, one domain
+nx     = 376           # 376 pts → dx ≈ 80 m  (30000/(376-1)=80.0)
+
+# --- Material ---
+cs     = 3.464         # km/s
+rho    = 2.67          # g/cm³
+
+# --- Time ---
+cfl    = 0.5
+tend   = 5.0
+iplot  = 5
+
+# --- Scheme ---
+order  = 6
+
+# --- BCs ---
+r0_l   = 0             # absorbing outer-left
+r1_l   = 1             # fault side, free
+r0_r   = 1             # fault side, free
+r1_r   = 0             # absorbing outer-right
+
+# --- Friction ---
+fric_law = SW
+Tau_0    = 81.60
+slip_init = 0.0
+
+alp_s   = 0.677
+alp_d   = 0.525
+D_c     = 0.4
+sigma_n = 120.0

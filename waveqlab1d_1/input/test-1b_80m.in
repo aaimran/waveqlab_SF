@@ -1,0 +1,23 @@
+# Withers et al. (2015) Figure 3 — Elastic half-space
+# VS=3464 m/s, rho=2700 kg/m3, infinite Q
+# r0_l=0: absorbing (wave exits cleanly, matches f-k open-domain reference)
+response = elastic
+cfl      = 0.5
+L        = 30.0
+nx       = 376
+cs       = 3.464
+rho      = 2.700
+tend     = 8.0
+fric_law = SW
+Tau_0     = 81.60
+sigma_n   = 120.0
+alp_s     = 0.677
+alp_d     = 0.525
+D_c       = 0.4
+slip_init = 0.0
+order    = 6
+w_stride = 1
+output_prefix = test-1b_80m
+
+r0_l = 0
+r1_r = 0

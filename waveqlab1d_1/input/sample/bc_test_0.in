@@ -1,0 +1,13 @@
+response = elastic
+cfl = 0.5
+L = 30.0
+nx = 501
+cs = 3.464
+rho = 2.67
+tend = 5.0
+fric_law = SW
+order = 6
+w_stride = 1
+output_prefix = bc_0
+r0_l = 0
+r1_r = 0

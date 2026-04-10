@@ -1,0 +1,76 @@
+# sw_bc_both1_r80m.yaml — free-surface BCs, 80 m primary training
+# ================================================================
+# BC:  r0_l=1 (free-surface left outer), r1_r=1 (free-surface right outer)
+
+experiment:
+  name: sw_bc_both1_r80m
+  description: "SW, free-surface BCs, primary training at 80 m resolution"
+
+bc:
+  r0_l: 1        # outer left  — free-surface
+  r1_l: 1        # fault left  — traction-free (fixed)
+  r0_r: 1        # fault right — traction-free (fixed)
+  r1_r: 1        # outer right — free-surface
+
+resolution:
+  res: r80
+  nx_train: 376
+  dx_km: 0.080
+  nt_out: 128
+
+domain:
+  L_km: 30.0
+  tend_s: 5.0
+
+model:
+  c_in: 9
+  modes_x: 24
+  modes_t: 24
+  width: 64
+  n_layers: 4
+  c_out: 4
+
+data:
+  train_dir: planC/data/bc_both1/train
+  val_dir:   planC/data/bc_both1/val
+  test_dir:  planC/data/bc_both1/test
+  res: r80
+  nt_out: 128
+  multiscale: true
+  multiscale_hr_res: r20
+  multiscale_hr_dir: planC/data/bc_both1/train
+  multiscale_hr_frac: 0.30
+
+physics:
+  rho_ref: 2.67
+  cs_ref:  3.464
+  sigma_n_ref: 120.0
+  mu_ref: 32.0
+
+training:
+  epochs: 150
+  batch_size: 16
+  lr: 1.0e-3
+  lr_min: 1.0e-5
+  weight_decay: 1.0e-4
+  patience: 25
+  save_every: 10
+  clip_grad_norm: 1.0
+  warmup_epochs: 5
+  scheduler: cosine_with_warmup
+
+loss:
+  w_data:  1.00
+  w_pde:   0.05
+  w_fault: 0.10
+  w_bc:    0.08
+  w_ic:    0.05
+  w_stab:  0.02
+  ramp_epoch: 20
+
+checkpoints:
+  dir: planC/checkpoints/sw_bc_both1_r80m
+  best: best.pt
+
+logging:
+  log_every: 5

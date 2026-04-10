@@ -1,0 +1,71 @@
+# sw_bc_both1_r20m.yaml — free-surface BCs, 20 m high-resolution training
+
+experiment:
+  name: sw_bc_both1_r20m
+  description: "SW, free-surface BCs, high resolution training at 20 m"
+
+bc:
+  r0_l: 1
+  r1_l: 1
+  r0_r: 1
+  r1_r: 1
+
+resolution:
+  res: r20
+  nx_train: 1501
+  dx_km: 0.020
+  nt_out: 128
+
+domain:
+  L_km: 30.0
+  tend_s: 5.0
+
+model:
+  c_in: 9
+  modes_x: 48
+  modes_t: 48
+  width: 64
+  n_layers: 4
+  c_out: 4
+
+data:
+  train_dir: planC/data/bc_both1/train
+  val_dir:   planC/data/bc_both1/val
+  test_dir:  planC/data/bc_both1/test
+  res: r20
+  nt_out: 128
+  multiscale: false
+
+physics:
+  rho_ref: 2.67
+  cs_ref:  3.464
+  sigma_n_ref: 120.0
+  mu_ref: 32.0
+
+training:
+  epochs: 150
+  batch_size: 4
+  lr: 5.0e-4
+  lr_min: 1.0e-5
+  weight_decay: 1.0e-4
+  patience: 25
+  save_every: 10
+  clip_grad_norm: 1.0
+  warmup_epochs: 5
+  scheduler: cosine_with_warmup
+
+loss:
+  w_data:  1.00
+  w_pde:   0.05
+  w_fault: 0.10
+  w_bc:    0.08
+  w_ic:    0.05
+  w_stab:  0.02
+  ramp_epoch: 20
+
+checkpoints:
+  dir: planC/checkpoints/sw_bc_both1_r20m
+  best: best.pt
+
+logging:
+  log_every: 5

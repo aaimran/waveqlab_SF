@@ -1,0 +1,37 @@
+# Withers et al. (2015) Figure 6 — Layered model, gamma=0.6
+# Layer (0-1 km from outer boundary): VS=3000 m/s, rho=2550, Qs=20
+# Half-space (1-30 km):               VS=3464 m/s, rho=2700, Qs=210
+# Q_S set via Qs_inv_file (independent of c*VS formula)
+# c is unused when Qs_inv_file is provided but must be set >0
+# r0_l=0, r1_r=0 + PML (5 km, 250 nodes at 20m)
+response      = anelastic
+cfl           = 0.5
+L             = 30.0
+nx            = 1501
+cs            = 3.464
+rho           = 2.700
+tend          = 12.0
+fric_law      = SW
+Tau_0     = 81.60
+sigma_n   = 120.0
+alp_s     = 0.677
+alp_d     = 0.525
+D_c       = 0.4
+slip_init = 0.0
+order         = 6
+w_stride      = 1
+output_prefix = test-4c_20m
+
+r0_l = 0
+r1_r = 0
+
+cs_file       = input/profile_cs_layer_20m.txt
+rho_file      = input/profile_rho_layer_20m.txt
+Qs_inv_file   = input/profile_Qsinv_layer_20m.txt
+weight_exp    = 0.6
+fref          = 1.0
+c             = 1.0
+
+pml       = true
+npml      = 250
+pml_alpha = 10.0

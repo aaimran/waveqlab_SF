@@ -1,0 +1,233 @@
+# =============================================================================
+# 1D Dynamic Rupture Simulation — Input File
+# Runner: python3 rupture_1d.py input/rupture_1d_SW.in
+#
+# FORMAT:  key = value
+#   - Lines starting with # are comments (ignored)
+#   - Blank lines are ignored
+#   - All keys are case-sensitive
+#   - Any key below can be omitted to use the built-in default (shown in [])
+#   - To override a parameter from a base run, simply re-specify it here
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# OUTPUT CONTROL
+# -----------------------------------------------------------------------------
+
+# Unique label used to name output files:
+#   output/{output_prefix}_{run_id}.npz
+# TIP: change this for each experiment so runs don't overwrite each other.
+output_prefix = rupture_SW
+
+# Snapshot stride: store domain fields every `iplot` time steps.
+# Larger values reduce memory usage of DomainOutput arrays.
+# Default: [5]
+iplot = 5
+
+
+# -----------------------------------------------------------------------------
+# DOMAIN GEOMETRY
+# -----------------------------------------------------------------------------
+
+# Total length of ONE elastic domain (km).
+# Two domains of length L are placed on each side of the fault at x=0:
+#   left domain:  x in [0,    L]
+#   right domain: x in [L, 2*L]
+# Default: [30.0]
+L = 30.0
+
+# Number of grid points in x per domain.
+# Must be odd for SBP operators of even order (e.g. 501 for order 6).
+# Increase for higher spatial resolution.  Memory scales as O(nx * nt * 4).
+# Default: [501]
+nx = 501
+
+
+# -----------------------------------------------------------------------------
+# MATERIAL PROPERTIES
+# (Homogeneous, identical left and right domains)
+# -----------------------------------------------------------------------------
+
+# Shear wave velocity (km/s).
+# Sets the wave speed used for the CFL condition.
+# Default: [3.464]
+cs = 3.464
+
+# Density (g/cm^3).
+# Shear modulus is derived as:  mu = rho * cs^2
+# Shear impedance is derived as: Zs = rho * cs
+# Default: [2.67]
+rho = 2.67
+
+
+# -----------------------------------------------------------------------------
+# TIME STEPPING
+# -----------------------------------------------------------------------------
+
+# CFL (Courant–Friedrichs–Lewy) number.
+# Controls numerical stability.  Must satisfy 0 < cfl <= 1.
+# Time step is computed as:  dt = (cfl / cs) * dx
+# Lower CFL → smaller dt → more time steps → higher cost but more stable.
+# Default: [0.5]
+cfl = 0.5
+
+# Simulation end time (s).
+# Default: [5.0]
+tend = 5.0
+
+# Optional: override dt directly (s).  Uncomment to use.
+# If set, ignores cfl for dt calculation.
+# dt = 0.008
+
+
+# -----------------------------------------------------------------------------
+# NUMERICAL SCHEME
+# -----------------------------------------------------------------------------
+
+# Order of accuracy of the SBP (Summation-By-Parts) finite difference operator.
+# Available orders: 2, 4, 6
+# Higher order → more accurate but slightly higher compute cost per step.
+# Recommended: 6 for production runs (PINO training data)
+# Default: [6]
+order = 6
+
+
+# -----------------------------------------------------------------------------
+# BOUNDARY CONDITIONS
+# Both ends of each domain have independent reflection coefficients:
+#   r =  0  : absorbing boundary (outgoing waves leave the domain)
+#   r =  1  : free-surface       (stress-free, reflects with same sign)
+#   r = -1  : clamped            (zero velocity, reflects with opposite sign)
+# -----------------------------------------------------------------------------
+
+# Left domain — left boundary (x = 0):
+# Default: [1]   (free-surface)
+r0_l = 1
+
+# Left domain — right boundary (x = L, fault side):
+# Default: [1]
+r1_l = 1
+
+# Right domain — left boundary (x = L, fault side):
+# Default: [1]
+r0_r = 1
+
+# Right domain — right boundary (x = 2*L):
+# Default: [1]
+r1_r = 1
+
+# SAT (Simultaneous Approximation Term) penalty weights for left domain.
+# These weight the boundary penalty terms in the SBP-SAT scheme.
+# Changing these alters numerical dissipation at boundaries.
+# Default: all [1]
+tau_11_l = 1
+tau_12_l = 1
+tau_21_l = 1
+tau_22_l = 1
+
+# SAT penalty weights for right domain.
+# Default: all [1]
+tau_11_r = 1
+tau_12_r = 1
+tau_21_r = 1
+tau_22_r = 1
+
+
+# -----------------------------------------------------------------------------
+# FRICTION LAW
+# Available options:
+#   SW  — Slip-Weakening friction (linear weakening with cumulative slip)
+#   RS  — Rate-and-State friction (aging law, velocity-weakening regime)
+# See parameters below.  Only the block matching fric_law is used.
+# Default: [SW]
+# -----------------------------------------------------------------------------
+fric_law = SW
+
+
+# -----------------------------------------------------------------------------
+# FAULT INITIAL CONDITION
+# -----------------------------------------------------------------------------
+
+# Background (initial) shear traction applied uniformly on the fault (MPa).
+# For SW: must exceed peak strength tau_p = alp_s * sigma_n to nucleate.
+# Slight overstress (e.g. 81.24 + 0.36) unlocks the fault at t=0.
+# Default SW: [81.60]    Default RS: [81.28]
+Tau_0 = 81.60
+
+# Initial fault slip (m).
+# Default: [0.0]
+slip_init = 0.0
+
+
+# -----------------------------------------------------------------------------
+# SLIP-WEAKENING (SW) FRICTION PARAMETERS
+# Used only when fric_law = SW
+#
+# Model: f(D) = alp_s  if D < 0
+#             = alp_s - (alp_s - alp_d) * D / D_c   if 0 <= D <= D_c
+#             = alp_d  if D > D_c
+#
+# Peak frictional strength:    tau_p = alp_s * sigma_n
+# Residual frictional strength: tau_r = alp_d * sigma_n
+# Breakdown slip distance:     D_c
+# -----------------------------------------------------------------------------
+
+# Static (peak) friction coefficient.
+# Default: [0.677]
+alp_s = 0.677
+
+# Dynamic (residual) friction coefficient.
+# Must satisfy alp_d < alp_s for velocity-weakening (unstable) fault.
+# Default: [0.525]
+alp_d = 0.525
+
+# Critical slip distance (m).
+# Slip distance over which friction weakens from alp_s to alp_d.
+# Smaller D_c → sharper weakening → more violent rupture.
+# Default: [0.4]
+D_c = 0.4
+
+# Normal stress (MPa).  Positive = compressive.
+# Default: [120.0]
+sigma_n = 120.0
+
+
+# -----------------------------------------------------------------------------
+# RATE-AND-STATE (RS) FRICTION PARAMETERS
+# Used only when fric_law = RS
+#
+# Model: tau = sigma_n * f(V, theta)
+#        f(V, theta) = f0 + a*ln(V/V0) + b*ln(V0*theta/L0)
+# State evolution (aging law):
+#        d(theta)/dt = 1 - V*theta/L0
+# Steady-state: theta_ss = L0/V  =>  f_ss = f0 + (a-b)*ln(V/V0)
+#
+# Velocity-weakening (unstable) regime requires: a - b < 0
+# -----------------------------------------------------------------------------
+
+# Reference friction coefficient at velocity V0.
+# Default: [0.6]
+f0 = 0.6
+
+# Direct effect (dimensionless) — instantaneous response to velocity change.
+# Default: [0.008]
+a = 0.008
+
+# Evolution effect (dimensionless) — steady-state friction change.
+# Velocity-weakening requires b > a.
+# Default: [0.012]
+b = 0.012
+
+# Reference slip velocity (m/s).
+# Default: [1.0e-6]
+V0 = 1.0e-6
+
+# State evolution distance (m).
+# Default: [0.02]
+L0 = 0.02
+
+# Initial value of the state variable theta_0 (s).
+# At steady-state for V = V0:  theta_ss = L0 / V0
+# Default: [0.4367]  (= 0.4367 * L0 / L0)
+psi_init = 0.4367

@@ -1,0 +1,26 @@
+# Withers et al. (2015) Figure 5 — Power-law Q (gamma=0.6)
+# r0_l=0: absorbing
+response   = anelastic
+cfl        = 0.5
+L          = 30.0
+nx         = 376
+cs         = 3.464
+rho        = 2.700
+tend       = 8.0
+fric_law   = SW
+Tau_0     = 81.60
+sigma_n   = 120.0
+alp_s     = 0.677
+alp_d     = 0.525
+D_c       = 0.4
+slip_init = 0.0
+order      = 6
+w_stride   = 1
+output_prefix = test-3b_80m
+
+r0_l = 0
+r1_r = 0
+
+c          = 14.433
+weight_exp = 0.6
+fref       = 1.0

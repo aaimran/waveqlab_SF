@@ -1,0 +1,30 @@
+# Withers et al. (2015) Figure 6 — Layered model (REFERENCE: 2x domain)
+# L=60 km, free surface, same resolution as test-4a
+response      = anelastic
+cfl           = 0.5
+L             = 60.0
+nx            = 3001
+cs            = 3.464
+rho           = 2.700
+tend          = 12.0
+fric_law      = SW
+Tau_0     = 81.60
+sigma_n   = 120.0
+alp_s     = 0.677
+alp_d     = 0.525
+D_c       = 0.4
+slip_init = 0.0
+order         = 6
+w_stride      = 1
+output_prefix = test-4r_20m
+
+r0_l = 1
+r1_r = 1
+
+weight_exp    = 0.6
+fref          = 1.0
+c             = 1.0
+
+cs_file       = input/profile_cs_layer_20m_ref.txt
+rho_file      = input/profile_rho_layer_20m_ref.txt
+Qs_inv_file   = input/profile_Qsinv_layer_20m_ref.txt

@@ -1,0 +1,46 @@
+# sw_free.yaml — Plan B: SW friction + free outer BC (r=1)
+
+plan: B
+model_key: sw_free
+fric_law: SW
+bc_mode: free
+
+model:
+  type: SeparateFNO2d
+  c_in: 15          # 6 spatial + 7 SW scalars + 2 coords
+  modes_x: 16
+  modes_t: 24
+  width: 64
+  n_layers: 4
+  c_out: 4
+
+data:
+  sim_nx: 301
+  sim_tend: 10.0
+  nx_lr: 128
+  nt_lr: 128
+  nx_hr: 256
+  nt_hr: 256
+
+training:
+  epochs: 80
+  batch_size: 16
+  lr: 1.0e-3
+  weight_decay: 1.0e-5
+  lr_scheduler: cosine
+  warmup_epochs: 8
+  save_every: 10
+  multiscale: true
+  multiscale_hr_frac: 0.3
+
+loss:
+  w_data: 1.0
+  w_pde: 0.05
+  w_fault: 0.10     # SW: traction continuity + slip-weakening residual
+  w_outer: 0.15     # free: s=0 at outer wall
+  w_ic: 0.05
+
+paths:
+  data_dir: data/sw_free
+  checkpoint_dir: checkpoints/sw_free
+  normalizer_file: checkpoints/sw_free/normalizers.pkl

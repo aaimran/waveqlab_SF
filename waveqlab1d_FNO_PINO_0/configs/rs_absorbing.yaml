@@ -1,0 +1,46 @@
+# rs_absorbing.yaml — Plan B: RS friction + absorbing outer BC (SAT impedance)
+
+plan: B
+model_key: rs_absorbing
+fric_law: RS
+bc_mode: absorbing
+
+model:
+  type: SeparateFNO2d
+  c_in: 18
+  modes_x: 20
+  modes_t: 28
+  width: 96
+  n_layers: 5
+  c_out: 4
+
+data:
+  sim_nx: 301
+  sim_tend: 15.0
+  nx_lr: 128
+  nt_lr: 128
+  nx_hr: 256
+  nt_hr: 256
+
+training:
+  epochs: 100
+  batch_size: 12
+  lr: 5.0e-4
+  weight_decay: 1.0e-5
+  lr_scheduler: cosine
+  warmup_epochs: 10
+  save_every: 10
+  multiscale: true
+  multiscale_hr_frac: 0.3
+
+loss:
+  w_data: 1.0
+  w_pde: 0.05
+  w_fault: 0.08
+  w_outer: 0.15
+  w_ic: 0.05
+
+paths:
+  data_dir: data/rs_absorbing
+  checkpoint_dir: checkpoints/rs_absorbing
+  normalizer_file: checkpoints/rs_absorbing/normalizers.pkl

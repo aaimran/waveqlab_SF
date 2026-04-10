@@ -1,0 +1,49 @@
+# unified.yaml — Plan A: Single FNO for all friction laws and BCs
+
+plan: A
+model_key: unified
+
+model:
+  type: UnifiedFNO2d
+  c_in: 22          # 6 spatial + 14 scalars + 2 coords
+  modes_x: 24
+  modes_t: 32
+  width: 128
+  n_layers: 6
+  c_out: 4          # v_l, s_l, v_r, s_r
+  n_fric: 2         # SW, RS
+  n_bc: 3           # free, absorbing, pml
+  embed_dim: 16     # FiLM embedding size
+
+data:
+  sim_nx: 301       # waveqlab1d simulation grid size
+  sim_tend: 10.0    # simulation duration [s]
+  nx_lr: 128        # training resolution (spatial)
+  nt_lr: 128        # training resolution (temporal)
+  nx_hr: 256        # super-resolution target
+  nt_hr: 256
+
+training:
+  epochs: 100
+  batch_size: 8
+  lr: 5.0e-4
+  weight_decay: 1.0e-5
+  lr_scheduler: cosine
+  warmup_epochs: 10
+  save_every: 10
+  # Multi-scale training: randomly alternate LR and HR batches
+  multiscale: true
+  multiscale_hr_frac: 0.3    # 30% of batches use HR data
+
+loss:
+  w_data: 1.0
+  w_pde: 0.05       # ramped to 0.10 after epoch 20
+  w_fault: 0.10
+  w_outer: 0.10
+  w_ic: 0.05
+  # fric_law and bc_mode are determined per-sample from metadata
+
+paths:
+  data_dir: data/plan_A
+  checkpoint_dir: checkpoints/unified
+  normalizer_file: checkpoints/unified/normalizers.pkl

@@ -1,0 +1,92 @@
+# =============================================================================
+# 1D Dynamic Rupture Simulation — Anelastic (GSLS) Input File
+# Runner: python3 rupture_1d.py input/rupture_1d_aQ.in
+#
+# This example reproduces the standard SW rupture benchmark with GSLS
+# anelastic attenuation (N=4 Zener mechanisms, Q_S = c/V_S with c=80).
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# OUTPUT CONTROL
+# -----------------------------------------------------------------------------
+output_prefix = rupture_aQ
+w_stride         = 5
+
+
+# -----------------------------------------------------------------------------
+# RESPONSE TYPE
+# -----------------------------------------------------------------------------
+# Use 'anelastic' to activate GSLS memory variables and unrelaxed modulus.
+# Use 'elastic'   for the standard elastic path (no attenuation).
+response      = anelastic
+
+
+# -----------------------------------------------------------------------------
+# DOMAIN & MATERIAL
+# -----------------------------------------------------------------------------
+L             = 30.0
+nx            = 501
+cs            = 3.464      # S-wave speed [km/s]
+rho           = 2.67       # density      [Mg/km^3 = g/cm^3]
+
+# Optional: load spatially variable profiles from text files (one value per line)
+#   rho_file  = rho_profile.txt
+#   cs_file   = cs_profile.txt
+
+
+# -----------------------------------------------------------------------------
+# GSLS ANELASTIC PARAMETERS
+# -----------------------------------------------------------------------------
+# Quality factor: Q_S = c * V_S   [c has units s/km]
+#   c=80, V_S=3.464 km/s  →  Q_S ≈ 277  (nearly elastic, good for regression)
+#   c=29, V_S=3.464 km/s  →  Q_S ≈ 100  (typical crustal Q)
+#   c=9,  V_S=3.464 km/s  →  Q_S ≈  30  (strongly attenuating)
+c             = 80.0
+
+# Weight set selector: 0.0 or 0.6
+#   0.0  → weights=[1.6126,0.6255,0.6382,1.5969]  (default, flatter Q curve)
+#   0.6  → weights=[0.0336,0.6873,0.8767,1.5202]
+weight_exp    = 0.0
+
+# Reference frequency for unrelaxed modulus correction [Hz]
+fref          = 1.0
+
+
+# -----------------------------------------------------------------------------
+# PML ABSORBING BOUNDARIES  (active when pml = true)
+# -----------------------------------------------------------------------------
+# Set r0_l=0 (absorbing SAT) together with pml=true for best absorption.
+# Keep r0_l=1 (free surface) to observe surface reflections.
+pml           = false
+npml          = 20
+pml_alpha     = 10.0
+
+
+# -----------------------------------------------------------------------------
+# TIME STEPPING
+# -----------------------------------------------------------------------------
+cfl           = 0.5
+tend          = 5.0
+
+
+# -----------------------------------------------------------------------------
+# NUMERICAL SCHEME
+# -----------------------------------------------------------------------------
+order         = 6
+
+# Boundary conditions: 1=free-surface, 0=absorbing SAT, -1=clamped
+r0_l          = 1
+r1_r          = 1
+
+
+# -----------------------------------------------------------------------------
+# FRICTION LAW: SLIP-WEAKENING (SW)
+# -----------------------------------------------------------------------------
+fric_law      = SW
+Tau_0         = 81.6
+sigma_n       = 120.0
+alp_s         = 0.677
+alp_d         = 0.525
+D_c           = 0.4
+slip_init     = 0.0

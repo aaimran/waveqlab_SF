@@ -1,0 +1,78 @@
+# sw_bc_both0_r80m.yaml — absorbing BCs, 80 m primary training
+# ================================================================
+# BC:  r0_l=0 (absorbing left outer), r1_r=0 (absorbing right outer)
+# Fault-side: r1_l=1, r0_r=1  (always traction-free at fault interface)
+
+experiment:
+  name: sw_bc_both0_r80m
+  description: "SW, absorbing BCs, primary training at 80 m resolution"
+
+bc:
+  r0_l: 0        # outer left  — absorbing
+  r1_l: 1        # fault left  — traction-free (fixed)
+  r0_r: 1        # fault right — traction-free (fixed)
+  r1_r: 0        # outer right — absorbing
+
+resolution:
+  res: r80
+  nx_train: 376
+  dx_km: 0.080     # 80 m = 0.080 km
+  nt_out: 128
+
+domain:
+  L_km: 30.0
+  tend_s: 5.0
+
+model:
+  c_in: 9          # 7 SW params + 2 coords
+  modes_x: 24
+  modes_t: 24
+  width: 64
+  n_layers: 4
+  c_out: 4         # v_l, s_l, v_r, s_r
+
+data:
+  train_dir: planC/data/bc_both0/train
+  val_dir:   planC/data/bc_both0/val
+  test_dir:  planC/data/bc_both0/test
+  res: r80
+  nt_out: 128
+  multiscale: true
+  multiscale_hr_res: r20
+  multiscale_hr_dir: planC/data/bc_both0/train   # same files, different res key
+  multiscale_hr_frac: 0.30   # 30 % of batches are HR (r20)
+
+physics:
+  # Reference values (used in PINOLoss when not per-sample)
+  rho_ref: 2.67      # g/cm³
+  cs_ref:  3.464     # km/s
+  sigma_n_ref: 120.0 # MPa
+  mu_ref: 32.0       # GPa (rho_ref * cs_ref^2)
+
+training:
+  epochs: 150
+  batch_size: 16
+  lr: 1.0e-3
+  lr_min: 1.0e-5
+  weight_decay: 1.0e-4
+  patience: 25           # early-stopping patience (val loss)
+  save_every: 10         # epoch interval for checkpoint saves
+  clip_grad_norm: 1.0
+  warmup_epochs: 5
+  scheduler: cosine_with_warmup
+
+loss:
+  w_data:  1.00
+  w_pde:   0.05   # ramped to 0.10 at epoch 20
+  w_fault: 0.10   # ramped to 0.20 at epoch 20
+  w_bc:    0.08
+  w_ic:    0.05
+  w_stab:  0.02   # ramped to 0.05 at epoch 20
+  ramp_epoch: 20  # epoch at which ramped weights take full value
+
+checkpoints:
+  dir: planC/checkpoints/sw_bc_both0_r80m
+  best: best.pt
+
+logging:
+  log_every: 5

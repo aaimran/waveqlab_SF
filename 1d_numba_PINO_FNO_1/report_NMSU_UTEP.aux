@@ -1,0 +1,99 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}The Big Picture: Why Should We Care?}{3}{section.1}\protected@file@percent }
+\newlabel{sec:motivation}{{1}{3}{The Big Picture: Why Should We Care?}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Earthquakes and the Challenge of Prediction}{3}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}The Curse of Repetition}{3}{subsection.1.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Compute cost to answer scientific questions requiring many simulations. ``Numba'' refers to our accelerated simulator (Section~\ref {sec:simulator}).}}{3}{table.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:cost}{{1}{3}{Compute cost to answer scientific questions requiring many simulations. ``Numba'' refers to our accelerated simulator (Section~\ref {sec:simulator})}{table.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The complete pipeline. We run the simulator only 300 times (training), then the FNO answers any new parameter query in under a millisecond.}}{4}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:pipeline}{{1}{4}{The complete pipeline. We run the simulator only 300 times (training), then the FNO answers any new parameter query in under a millisecond}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background: The Physics of Earthquake Rupture}{4}{section.2}\protected@file@percent }
+\newlabel{sec:physics}{{2}{4}{Background: The Physics of Earthquake Rupture}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Elastic Waves in the Earth}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}The Governing Equations}{5}{subsection.2.2}\protected@file@percent }
+\newlabel{eq:momentum}{{{Momentum -- Newton's 2nd Law}}{5}{The Governing Equations}{AMS.6}{}}
+\newlabel{eq:constitutive}{{{Constitutive -- Hooke's Law}}{5}{The Governing Equations}{AMS.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}The Geometry: Two Domains and a Fault}{5}{subsection.2.3}\protected@file@percent }
+\newlabel{sec:geometry}{{2.3}{5}{The Geometry: Two Domains and a Fault}{subsection.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The 1D rupture model. Two elastic blocks are separated by a fault at $x = L = 15\,\text  {km}$. During rupture, the left side slides one way and the right side the other. Outgoing waves are absorbed at the ends so reflections do not contaminate the solution.}}{6}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:geometry}{{2}{6}{The 1D rupture model. Two elastic blocks are separated by a fault at $x = L = 15\,\text {km}$. During rupture, the left side slides one way and the right side the other. Outgoing waves are absorbed at the ends so reflections do not contaminate the solution}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Fault Friction: The Slip-Weakening Law}{6}{subsection.2.4}\protected@file@percent }
+\newlabel{eq:sw}{{1}{6}{Fault Friction: The Slip-Weakening Law}{equation.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces The four friction parameters that define a rupture scenario. These are the inputs to the FNO.}}{7}{table.caption.9}\protected@file@percent }
+\newlabel{tab:params}{{2}{7}{The four friction parameters that define a rupture scenario. These are the inputs to the FNO}{table.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The slip-weakening friction law. As the fault slides from $D=0$ to $D=D_c$, the friction coefficient drops linearly from the static value $\alpha _s$ to the dynamic value $\alpha _d$. A larger strength drop ($\alpha _s - \alpha _d$) produces more violent rupture. A smaller $D_c$ means the fault weakens over a shorter distance, allowing faster acceleration.}}{7}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:sw_diagram}{{3}{7}{The slip-weakening friction law. As the fault slides from $D=0$ to $D=D_c$, the friction coefficient drops linearly from the static value $\alpha _s$ to the dynamic value $\alpha _d$. A larger strength drop ($\alpha _s - \alpha _d$) produces more violent rupture. A smaller $D_c$ means the fault weakens over a shorter distance, allowing faster acceleration}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}The Forward Simulator}{8}{section.3}\protected@file@percent }
+\newlabel{sec:simulator}{{3}{8}{The Forward Simulator}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}What Does the Simulator Do?}{8}{subsection.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Schematic outputs of the simulator. \textbf  {Left}: the velocity field $v_l(x,t)$ shows a wavefront travelling at $c_s \approx 3.46$ km/s. \textbf  {Right}: the slip-rate history at the fault peaks sharply then decays — this is the ``pulse'' of the earthquake. The FNO must learn to reproduce both from just 4 numbers.}}{8}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:sim_output}{{4}{8}{Schematic outputs of the simulator. \textbf {Left}: the velocity field $v_l(x,t)$ shows a wavefront travelling at $c_s \approx 3.46$ km/s. \textbf {Right}: the slip-rate history at the fault peaks sharply then decays — this is the ``pulse'' of the earthquake. The FNO must learn to reproduce both from just 4 numbers}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Summation-by-Parts (SBP) Spatial Discretization}{8}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:sbp}{{3.2}{8}{Summation-by-Parts (SBP) Spatial Discretization}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Simultaneous-Approximation-Terms (SAT) Boundary Conditions}{9}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Time Integration: Runge-Kutta 4}{9}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Numba JIT Acceleration}{9}{subsection.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Time per simulation (log scale). Numba JIT delivers a $\mathbf  {1868\times }$ speedup over pure Python. The trained FNO is expected to be a further $\sim 17\times $ faster than Numba on CPU, and $\sim 1000\times $ faster on GPU — giving a total speedup of $>10^5$ vs.\ the original Python.}}{10}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:speedup}{{5}{10}{Time per simulation (log scale). Numba JIT delivers a $\mathbf {1868\times }$ speedup over pure Python. The trained FNO is expected to be a further $\sim 17\times $ faster than Numba on CPU, and $\sim 1000\times $ faster on GPU — giving a total speedup of $>10^5$ vs.\ the original Python}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}The Dataset}{10}{section.4}\protected@file@percent }
+\newlabel{sec:dataset}{{4}{10}{The Dataset}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Latin Hypercube Sampling (LHS)}{10}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces LHS (left) spreads samples uniformly across the parameter space with no clustering. Pure random sampling (right) often leaves gaps in some regions and piles up in others, wasting simulations.}}{11}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:lhs}{{6}{11}{LHS (left) spreads samples uniformly across the parameter space with no clustering. Pure random sampling (right) often leaves gaps in some regions and piles up in others, wasting simulations}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Dataset Composition}{11}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Dataset splits used for training, validation, and testing.}}{11}{table.caption.14}\protected@file@percent }
+\newlabel{tab:dataset}{{3}{11}{Dataset splits used for training, validation, and testing}{table.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Normalisation}{11}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}The Fourier Neural Operator}{12}{section.5}\protected@file@percent }
+\newlabel{sec:fno}{{5}{12}{The Fourier Neural Operator}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}What Is an Operator?}{12}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Why Fourier Space?}{12}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}The Spectral Convolution Layer}{13}{subsection.5.3}\protected@file@percent }
+\newlabel{eq:spec_conv}{{2}{13}{The Spectral Convolution Layer}{equation.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces One FNO block. The top path is the spectral (global) path; the bypass (bottom) is a local pointwise linear transformation. Their sum, followed by GeLU non-linearity, gives the block output.}}{13}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:fno_block}{{7}{13}{One FNO block. The top path is the spectral (global) path; the bypass (bottom) is a local pointwise linear transformation. Their sum, followed by GeLU non-linearity, gives the block output}{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Mode truncation. Only the first $k_{\max } = 16$ Fourier modes in each direction are retained and multiplied by trainable weights. Higher modes, which correspond to grid-scale noise, are discarded. This automatic low-pass filtering makes the FNO robust and resolution-independent.}}{13}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:mode_trunc}{{8}{13}{Mode truncation. Only the first $k_{\max } = 16$ Fourier modes in each direction are retained and multiplied by trainable weights. Higher modes, which correspond to grid-scale noise, are discarded. This automatic low-pass filtering makes the FNO robust and resolution-independent}{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Full FNO-2D Architecture}{13}{subsection.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Complete FNO-2D architecture. Six input channels carry the four normalised parameters (broadcast to every grid point) plus the $(x,t)$ coordinates. Four FNO blocks transform them to 64 hidden channels that ``know'' about global wave physics. A two-layer MLP projects each grid point's 64-dimensional feature vector down to 4 output fields. Total trainable parameters: \textbf  {8,414,532}.}}{14}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:fno_arch}{{9}{14}{Complete FNO-2D architecture. Six input channels carry the four normalised parameters (broadcast to every grid point) plus the $(x,t)$ coordinates. Four FNO blocks transform them to 64 hidden channels that ``know'' about global wave physics. A two-layer MLP projects each grid point's 64-dimensional feature vector down to 4 output fields. Total trainable parameters: \textbf {8,414,532}}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Training the FNO}{14}{section.6}\protected@file@percent }
+\newlabel{sec:training}{{6}{14}{Training the FNO}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Loss Function}{14}{subsection.6.1}\protected@file@percent }
+\newlabel{eq:loss}{{3}{14}{Loss Function}{equation.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Optimisation}{14}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Learning Rate Schedule}{15}{subsection.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Learning rate schedule. During the first 10 epochs, $\ell _r$ ramps up linearly from 0 to $10^{-3}$ (``warmup'') to avoid instability with random initial weights. Then it decays following a cosine curve to near 0 at epoch 200, allowing fine-grained convergence.}}{15}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:lr_schedule}{{10}{15}{Learning rate schedule. During the first 10 epochs, $\ell _r$ ramps up linearly from 0 to $10^{-3}$ (``warmup'') to avoid instability with random initial weights. Then it decays following a cosine curve to near 0 at epoch 200, allowing fine-grained convergence}{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Hardware}{15}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Results}{15}{section.7}\protected@file@percent }
+\newlabel{sec:results}{{7}{15}{Results}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Training Convergence}{15}{subsection.7.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Training and validation loss over 110 epochs. Both curves decrease together, indicating no overfitting. The initial 92\% drop in the first 10 epochs shows the network quickly learning the dominant wave-propagation structure.}}{16}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:convergence}{{11}{16}{Training and validation loss over 110 epochs. Both curves decrease together, indicating no overfitting. The initial 92\% drop in the first 10 epochs shows the network quickly learning the dominant wave-propagation structure}{figure.caption.19}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Training progress at selected epochs. LR = learning rate.}}{16}{table.caption.20}\protected@file@percent }
+\newlabel{tab:train_progress}{{4}{16}{Training progress at selected epochs. LR = learning rate}{table.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}What 1.5\% Error Means in Practice}{16}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Speedup Summary}{17}{subsection.7.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Speedup across all implementations. FNO estimates assume a single forward pass of the 8.4M parameter model.}}{17}{table.caption.21}\protected@file@percent }
+\newlabel{tab:speedup}{{5}{17}{Speedup across all implementations. FNO estimates assume a single forward pass of the 8.4M parameter model}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Physics-Informed Extension (PINO)}{17}{section.8}\protected@file@percent }
+\newlabel{sec:pino}{{8}{17}{Physics-Informed Extension (PINO)}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Motivation: Why Add Physics?}{17}{subsection.8.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces PINO loss decomposition. The total loss combines data fidelity (match the simulator), PDE consistency (satisfy the wave equations), and boundary consistency (satisfy the friction law at the fault).}}{18}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:pino_loss}{{12}{18}{PINO loss decomposition. The total loss combines data fidelity (match the simulator), PDE consistency (satisfy the wave equations), and boundary consistency (satisfy the friction law at the fault)}{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}PDE Residuals in Fourier Space}{18}{subsection.8.2}\protected@file@percent }
+\newlabel{eq:pde_loss}{{5}{18}{PDE Residuals in Fourier Space}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Fault Boundary Loss}{18}{subsection.8.3}\protected@file@percent }
+\newlabel{eq:bc_loss}{{6}{18}{Fault Boundary Loss}{equation.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Current Status and Next Steps}{19}{subsection.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Future Directions}{19}{section.9}\protected@file@percent }
+\newlabel{sec:future}{{9}{19}{Future Directions}{section.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusions}{19}{section.10}\protected@file@percent }
+\newlabel{sec:conclusions}{{10}{19}{Conclusions}{section.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Validation error at key training milestones. The model converges rapidly and is expected to reach $<$1\% error by epoch 200.}}{20}{figure.13}\protected@file@percent }
+\gdef \@abspage@last{22}

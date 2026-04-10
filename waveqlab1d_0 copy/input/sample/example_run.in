@@ -1,0 +1,14 @@
+# Example input file for rupture_1d.py
+cfl = 0.5
+L = 30.0
+nx = 501
+cs = 3.464
+rho = 2.67
+tend = 5.0
+fric_law = SW
+order = 6
+w_stride = 5
+output_prefix = rupture_run
+
+# Optional: override dt explicitly (uncomment to use)
+# dt = 0.0001

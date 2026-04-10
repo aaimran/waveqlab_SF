@@ -1,0 +1,40 @@
+# =============================================================================
+# Plan-C Input: SW friction, FREE-SURFACE outer boundaries (r0_l=1, r1_r=1)
+#   Left domain:   x in [0, L=30 km]   left-BC free (r0_l=1)
+#   Right domain:  x in [L, 2L]        right-BC free (r1_r=1)
+# Resolution here: nx=376 → dx~80 m.  Override nx per resolution sweep.
+# =============================================================================
+
+output_prefix = rupture_SW_bc1
+
+# --- Domain ---
+L      = 30.0
+nx     = 376           # dx ≈ 80 m
+
+# --- Material ---
+cs     = 3.464
+rho    = 2.67
+
+# --- Time ---
+cfl    = 0.5
+tend   = 5.0
+iplot  = 5
+
+# --- Scheme ---
+order  = 6
+
+# --- BCs ---
+r0_l   = 1             # free-surface outer-left
+r1_l   = 1             # fault side
+r0_r   = 1             # fault side
+r1_r   = 1             # free-surface outer-right
+
+# --- Friction ---
+fric_law  = SW
+Tau_0     = 81.60
+slip_init = 0.0
+
+alp_s   = 0.677
+alp_d   = 0.525
+D_c     = 0.4
+sigma_n = 120.0

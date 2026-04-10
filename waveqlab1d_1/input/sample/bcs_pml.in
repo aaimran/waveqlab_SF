@@ -1,0 +1,16 @@
+response = elastic
+cfl = 0.5
+L = 5.0
+nx = 501
+cs = 3.464
+rho = 2.67
+tend = 10.0
+fric_law = SW
+order = 6
+w_stride = 1
+output_prefix = bcs_pml
+r0_l = 0
+r1_r = 0
+pml = true
+npml = 20
+pml_alpha = 10.0

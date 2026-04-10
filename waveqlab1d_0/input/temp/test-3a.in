@@ -1,0 +1,20 @@
+# input file for rupture_1d.py
+response = anelastic
+cfl = 0.5
+L = 30.0
+nx = 501
+cs = 3.464
+rho = 2.67
+tend = 20.0
+fric_law = SW
+order = 6
+w_stride = 1
+output_prefix = test-3a
+
+r0_l = 1
+r1_r = 1
+
+# Anelastic parameters
+c = 29.0
+weight_exp = 0.6
+fref = 1.0

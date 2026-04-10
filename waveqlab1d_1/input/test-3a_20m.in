@@ -1,0 +1,28 @@
+# Withers et al. (2015) Figure 5 — Power-law Q (gamma=0.6)
+# VS=3464 m/s, rho=2700 kg/m3, Qs(f) = 50*(f/1Hz)^0.6 for f>1Hz
+# c = 50/3.464 = 14.433 s/km (Q_S(1Hz) = 50)
+# r0_l=1: free surface
+response   = anelastic
+cfl        = 0.5
+L          = 30.0
+nx         = 1501
+cs         = 3.464
+rho        = 2.700
+tend       = 8.0
+fric_law   = SW
+Tau_0     = 81.60
+sigma_n   = 120.0
+alp_s     = 0.677
+alp_d     = 0.525
+D_c       = 0.4
+slip_init = 0.0
+order      = 6
+w_stride   = 1
+output_prefix = test-3a_20m
+
+r0_l = 1
+r1_r = 1
+
+c          = 14.433
+weight_exp = 0.6
+fref       = 1.0

@@ -1,0 +1,17 @@
+# Simple anelastic (GSLS) input file for rupture_1d.py
+response = anelastic
+cfl = 0.5
+L = 30.0
+nx = 501
+cs = 3.464
+rho = 2.67
+tend = 5.0
+fric_law = SW
+order = 6
+w_stride = 1
+output_prefix = simple_aQ
+
+# Anelastic parameters
+c = 29.0
+weight_exp = 0.0
+fref = 1.0
