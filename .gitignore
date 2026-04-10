@@ -4,3 +4,13 @@ data/
 plots/
 figures/
 figures_png/
+
+# Large binary files
+*.npz
+*.npy
+*.pt
+*.h5
+*.hdf5
+*.gif
+*.mp4
+checkpoints/
